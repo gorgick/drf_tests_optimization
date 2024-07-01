@@ -9,3 +9,17 @@ class Blog(models.Model):
     article = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogs')
+
+
+class Comment(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
+    date = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+
+
+class Like(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='likes', null=True, blank=True)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='likes', null=True, blank=True)
+    mark = models.BooleanField(default=False)
