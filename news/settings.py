@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-
+    'django_filters',
     'blogs'
 ]
 
@@ -65,6 +65,10 @@ if ENABLE_DEBUG_TOOLBAR:
     ]
 
 ROOT_URLCONF = 'news.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 TEMPLATES = [
     {
