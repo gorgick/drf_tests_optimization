@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.models import User
 from django.db.models import Prefetch, Count, F
 from django.urls import reverse
@@ -48,3 +50,15 @@ class BlogTests(APITestCase):
         serializer_data = BlogSerializer(blogs, many=True).data
         self.assertEqual(serializer_data, response.data)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_post(self):
+        url = reverse('blog-list')
+        self.client.force_login(self.user)
+        data = {
+            'title': 'tree',
+            'article': 'test_tree',
+            'owner': self.user.id
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json')
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
+        print(Blog.objects.last().owner)
