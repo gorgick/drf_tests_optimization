@@ -6,7 +6,7 @@ from blogs.models import Blog, Like, Comment
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = ('mark', 'owner')
+        fields = ('mark', 'blog', 'owner')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -25,4 +25,4 @@ class BlogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Blog
-        fields = ('title', 'owner', 'article', 'comments', 'author_name', 'likes', 'likes_count')
+        fields = ('id', 'title', 'owner', 'article', 'comments', 'author_name', 'likes', 'likes_count')

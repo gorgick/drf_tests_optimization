@@ -1,11 +1,12 @@
 from django.db.models import Prefetch, Count, F
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from blogs.models import Blog, Comment
-from blogs.serializers import BlogSerializer
+from blogs.models import Blog, Comment, Like
+from blogs.serializers import BlogSerializer, LikeSerializer
 
 
 class BlogViewSet(ModelViewSet):
@@ -18,3 +19,14 @@ class BlogViewSet(ModelViewSet):
     search_fields = ['title', 'article']
     ordering_fields = ['title', 'date']
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class LikePostView(UpdateModelMixin, GenericViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    lookup_field = 'blog'
+
+    def get_object(self):
+        obj, created = Like.objects.get_or_create(owner=self.request.user, blog_id=self.kwargs['blog'])
+        return obj
