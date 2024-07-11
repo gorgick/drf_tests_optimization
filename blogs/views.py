@@ -13,7 +13,6 @@ class BlogViewSet(ModelViewSet):
         owner_name=F('owner__username')))).prefetch_related('likes').annotate(
         author_name=F('owner__username')).annotate(likes_count=Count('likes'))
     serializer_class = BlogSerializer
-    serializer_class = BlogSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['title']
     search_fields = ['title', 'article']
