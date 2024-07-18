@@ -19,11 +19,12 @@ from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
-from blogs.views import BlogViewSet, LikePostView
+from blogs.views import BlogViewSet, LikePostView, CommentsView
 
 router = SimpleRouter()
 router.register(r'blog', BlogViewSet)
 router.register(r'blog-like', LikePostView)
+router.register(r'blog-comments', CommentsView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

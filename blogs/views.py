@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from blogs.models import Blog, Comment, Like
-from blogs.serializers import BlogSerializer, LikeSerializer
+from blogs.serializers import BlogSerializer, LikeSerializer, CommentSerializer
 
 
 class BlogViewSet(ModelViewSet):
@@ -30,3 +30,9 @@ class LikePostView(UpdateModelMixin, GenericViewSet):
     def get_object(self):
         obj, created = Like.objects.get_or_create(owner=self.request.user, blog_id=self.kwargs['blog'])
         return obj
+
+
+class CommentsView(ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
